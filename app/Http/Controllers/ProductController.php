@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('web');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,10 +37,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\ProductRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product = new Product($request->except('_token'));
         $product->save();
@@ -68,11 +74,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \App\Http\Requests\ProductRequest $request
      * @param  $id
-     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $product = Product::find($id);
         $product->name = $request->name;
